@@ -1,0 +1,56 @@
+MyAffCrypto = AffineCryptosystem(AlphabeticStrings()); MyAffCrypto
+
+plaintext = open("/home/serdar/Desktop/plaintext")
+
+read_data = plaintext.read()
+read_data.encode("utf-8")
+plaintext.close()
+
+P_Text = MyAffCrypto.encoding(read_data); P_Text
+
+x,y = MyAffCrypto.random_key()
+Encrypt = MyAffCrypto(x,y);Encrypt
+
+CiphText = Encrypt(P_Text); CiphText
+
+CiphText = str(CiphText)
+CiphTextFile = open("CipherTextFile.txt", 'w')
+CiphTextFile.write(CiphText)
+CiphTextFile.close()
+
+CiphTextFile = open("CipherTextFile.txt", 'r')
+read_Ciphdata = CiphTextFile.read()
+read_Ciphdata.encode("utf-8")
+CiphTextFile.close()
+
+xInv, yInv = MyAffCrypto.inverse_key(x,y)
+Decrypt = MyAffCrypto(xInv, yInv); Decrypt
+CiphText2 = MyAffCrypto.encoding(read_Ciphdata)
+Decrypt(CiphText2)
+Decrypt(CiphText2) == P_Text
+Decrypt(CiphText2) == P_Text == Decrypt(Encrypt(P_Text))
+
+P_Text;
+L = MyAffCrypto.brute_force(CiphText2)
+RankedNone = sorted(L.items())[:26]; RankedNone
+
+RankedNoneTextFile = open("RankedNoneTextFile.txt",'w')
+RankedNone = str(RankedNone)
+RankedNoneTextFile.write(RankedNone)
+RankedNoneTextFile.close()
+
+RankedChis = MyAffCrypto.brute_force(CiphText2, ranking="chisquare")
+RankedChis[:10]
+
+RankedChisTextFile = open("RankedChisTextFile.txt", 'w')
+RankedChis = str(RankedChis)
+RankedChisTextFile.write(RankedChis)
+RankedChisTextFile.close()
+
+RankedSquared = MyAffCrypto.brute_force(CiphText2, ranking = "squared_differences")
+RankedSquared[:10]
+
+RankedSquaredTextFile = open("RankedSquaredTextFile.txt",'w')
+RankedSquared = str(RankedSquared)
+RankedSquaredTextFile.write(RankedSquared)
+RankedSquaredTextFile.close()
